@@ -3,11 +3,12 @@ import axios from 'axios'
 import GoogleMapReact from 'google-map-react';
 import Places from './Places.js';
 import { mapStyle } from './style.js';
-import Infowindow from './Infowindow.js'
-const style ={
-	width: 100,
-	height: 100,
-}
+
+  let style = {
+    width: '250px',
+    height: '250px',
+    backgroundColor: 'yellow',}
+
 export default class Map extends Component {
 
 	constructor(props){
@@ -19,26 +20,22 @@ export default class Map extends Component {
 			zoom: 16,
 			click: false,
 		}
-		this.handleClick = this.handleClick.bind(this);
+		this.onChildClick = this.onChildClick.bind(this);
 	} 	
 
 componentDidMount(){
 	this.fetchData('sushi'); // TODO: change when implement input field
-	// setState is kind of async
-    this.handleClick();
 }
 
-handleClick(){
-	if(this.state.click === false){
-		this.setState({click: true});
-		console.log('clicked: ' + this.state.click)
-	}
-	else{
-		this.setState({
-			click: false
-		})
-	console.log(this.state.click)
-	}
+onChildClick(key, props) {
+	let clickedMarker = (this.state.click ? false : true);
+	this.setState({
+	  click: clickedMarker,
+	});
+	this.setState({
+		center: {'lat': props.lat, 'lng': props.lng}
+	});
+	console.log(props.lat)
 }
 
 // TODO: error handling
@@ -60,27 +57,34 @@ fetchData = (query)=>{
 	});
 	})
 }
-	render() {	
-	    return (
-	        <GoogleMapReact
-		        options={mapStyle}
-		        bootstrapURLKeys={{key: 'AIzaSyD0bg8zynVSUQBNqTIp__dBgIrVghmv8Co'}}
-				defaultCenter={this.state.center}
-	          	defaultZoom={this.state.zoom}
-	          	onChildClick={this.handleClick.bind(this)}
-			>
-			{this.state.venues.map(function(venue) {
-				return(
-	          		<Places 
-	          			key={venue.id}
-	          			lat={venue.location.lat}
-	          			lng={venue.location.lng}
-	          			name={venue.name}
-	           		/>
-	          	)
-	          })}
-          </GoogleMapReact>
-	    );
-	  }
+	render() {
+	const venues = this.state.venues;
+	let markers;
+	if (venues !== null){
+		markers = venues.map(function(venue) {
+			return(
+				<Places 
+					key={venue.id}
+					lat={venue.location.lat}
+					lng={venue.location.lng}
+					name={venue.name}
+				>
+				</Places>
+			)
+		})
 	}
+
+    return (
+        <GoogleMapReact
+	        options={mapStyle}
+	        bootstrapURLKeys={{key: 'AIzaSyD0bg8zynVSUQBNqTIp__dBgIrVghmv8Co'}}
+			center={this.state.center}
+          	defaultZoom={this.state.zoom}
+          	onChildClick={this.onChildClick}
+		>
+		{markers}
+      </GoogleMapReact>
+    );
+  }
+}
 
