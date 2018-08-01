@@ -1,14 +1,13 @@
-import React, { Component } from 'react';
+import React, { Component, ReactDOM } from 'react';
 import './App.css';
 import Map from './Map.js'
-class App extends Component {
+
+export default class App extends Component {
 	render() {
 	    return (
-	      <div className="App" style={{ height: '100vh', width: '100vw' }}>
+	      <div id="app" style={{ height: '100vh', width: '100vw', float: 'right' }}>
 	      	<Map />
 	      </div>
 	    );
 	  }
 	}
-
-export default App;

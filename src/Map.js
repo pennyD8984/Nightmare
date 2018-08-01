@@ -3,11 +3,31 @@ import axios from 'axios'
 import GoogleMapReact from 'google-map-react';
 import Places from './Places.js';
 import { mapStyle } from './style.js';
-
-  let style = {
-    width: '250px',
-    height: '250px',
-    backgroundColor: 'yellow',}
+import Infowindow from './Infowindow.js'
+let style = {
+	backgroundColor: 'yellow',
+	width: '20px',
+	height: '20px'
+}
+function createMapOptions(maps) {
+  // next props are exposed at maps
+  // "Animation", "ControlPosition", "MapTypeControlStyle", "MapTypeId",
+  // "NavigationControlStyle", "ScaleControlStyle", "StrokePosition", "SymbolPath", "ZoomControlStyle",
+  // "DirectionsStatus", "DirectionsTravelMode", "DirectionsUnitSystem", "DistanceMatrixStatus",
+  // "DistanceMatrixElementStatus", "ElevationStatus", "GeocoderLocationType", "GeocoderStatus", "KmlLayerStatus",
+  // "MaxZoomStatus", "StreetViewStatus", "TransitMode", "TransitRoutePreference", "TravelMode", "UnitSystem"
+  return {
+  	options: mapStyle,
+    zoomControlOptions: {
+      position: maps.ControlPosition.RIGHT_CENTER,
+      style: maps.ZoomControlStyle.SMALL
+    },
+    mapTypeControlOptions: {
+      position: maps.ControlPosition.TOP_RIGHT
+    },
+    mapTypeControl: true,
+  };
+}
 
 export default class Map extends Component {
 
@@ -18,7 +38,11 @@ export default class Map extends Component {
 			query: '',
 			center: {lat: 49.240157, lng: 6.996933},
 			zoom: 16,
-			click: false,
+			clickedMarker: {
+				clickedMarkerCoords: { lat: 0, lng: 0},
+				clickedMarkerInfo:{name: '', address: ''},
+				infowindowOpen: false,
+			}
 		}
 		this.onChildClick = this.onChildClick.bind(this);
 	} 	
@@ -28,14 +52,15 @@ componentDidMount(){
 }
 
 onChildClick(key, props) {
-	let clickedMarker = (this.state.click ? false : true);
-	this.setState({
-	  click: clickedMarker,
-	});
-	this.setState({
-		center: {'lat': props.lat, 'lng': props.lng}
-	});
-	console.log(props.lat)
+	return (this.setState({
+		center: {'lat': props.lat, 'lng': props.lng},
+      	clickedMarker: {
+      		clickedMarkerInfo:{name: props.name, address: props.address},
+      		clickedMarkerCoords: {lat: props.lat, lng: props.lng},
+      		infowindowOpen: true,
+      	},
+	})
+	)
 }
 
 // TODO: error handling
@@ -48,6 +73,7 @@ fetchData = (query)=>{
 		near: 'saarbruecken',
 		intent: 'browse',
 		v: 20180728,
+		radius: 20000,
 	};
 
 	axios.get(endPoint + new URLSearchParams(params))
@@ -57,9 +83,12 @@ fetchData = (query)=>{
 	});
 	})
 }
+
+
 	render() {
 	const venues = this.state.venues;
 	let markers;
+	let iw;
 	if (venues !== null){
 		markers = venues.map(function(venue) {
 			return(
@@ -68,21 +97,30 @@ fetchData = (query)=>{
 					lat={venue.location.lat}
 					lng={venue.location.lng}
 					name={venue.name}
-				>
+					address={venue.location.formattedAddress}
+
+				>		
 				</Places>
 			)
 		})
 	}
+	// show infowindow when marker is clicked
+	if (this.state.clickedMarker.infowindowOpen){
+		iw = <Infowindow 
+			clickedMarker={this.state.clickedMarker}/>
+	}
+
 
     return (
         <GoogleMapReact
-	        options={mapStyle}
+	        options={createMapOptions}
 	        bootstrapURLKeys={{key: 'AIzaSyD0bg8zynVSUQBNqTIp__dBgIrVghmv8Co'}}
 			center={this.state.center}
           	defaultZoom={this.state.zoom}
-          	onChildClick={this.onChildClick}
+          	onChildClick={this.onChildClick.bind(this)}
 		>
 		{markers}
+		{iw}
       </GoogleMapReact>
     );
   }

@@ -5,9 +5,6 @@ export default class Places extends Component {
   constructor(props){
     super(props);
   }
-  componentDidMount(){
-
-  }
 
   render() {
   const style = this.props.$hover ? markerStyleHover : markerStyle;

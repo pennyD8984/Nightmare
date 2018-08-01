@@ -1,22 +1,25 @@
 import React, { Component } from 'react';
-  const style={
-    width: "100px",
-    height: '100px',
+  let style = {
+    width: '20vw',
+    height: '25vh',
+    backgroundColor: 'white',
+    WebkitBoxShadow: '0px -1px 12px 3px rgba(0,0,0,0.45)',
+    MozBoxShadow: '0px -1px 12px 3px rgba(0,0,0,0.45)',
+    boxShadow:' 0px -1px 12px 3px rgba(0,0,0,0.45)',
+    marginLeft: '-80px',
+    marginTop: '-100px',
   }
-
-  export default class Infowindow extends Component { 
-
+console.log(this.clickedMarker)
+export default class Infowindow extends Component {
+  
   constructor(props){
     super(props);
   }
-  componentDidMount(){
-
-  }
-
 
   render() {
   return (
-      <div style={style}
+      <div 
+        style={style}
       >
       </div>
     );
