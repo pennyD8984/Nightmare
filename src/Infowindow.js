@@ -9,11 +9,12 @@ import React, { Component } from 'react';
     marginLeft: '-80px',
     marginTop: '-100px',
   }
-console.log(this.clickedMarker)
+
 export default class Infowindow extends Component {
   
   constructor(props){
     super(props);
+
   }
 
   render() {

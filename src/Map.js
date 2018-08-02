@@ -4,11 +4,7 @@ import GoogleMapReact from 'google-map-react';
 import Places from './Places.js';
 import { mapStyle } from './style.js';
 import Infowindow from './Infowindow.js'
-let style = {
-	backgroundColor: 'yellow',
-	width: '20px',
-	height: '20px'
-}
+
 function createMapOptions(maps) {
   // next props are exposed at maps
   // "Animation", "ControlPosition", "MapTypeControlStyle", "MapTypeId",
@@ -30,7 +26,6 @@ function createMapOptions(maps) {
 }
 
 export default class Map extends Component {
-
 	constructor(props){
 		super(props);
 		this.state = {
@@ -39,7 +34,7 @@ export default class Map extends Component {
 			center: {lat: 49.240157, lng: 6.996933},
 			zoom: 16,
 			clickedMarker: {
-				clickedMarkerCoords: { lat: 0, lng: 0},
+				coords: { lat: 0, lng: 0},
 				clickedMarkerInfo:{name: '', address: ''},
 				infowindowOpen: false,
 			}
@@ -56,7 +51,7 @@ onChildClick(key, props) {
 		center: {'lat': props.lat, 'lng': props.lng},
       	clickedMarker: {
       		clickedMarkerInfo:{name: props.name, address: props.address},
-      		clickedMarkerCoords: {lat: props.lat, lng: props.lng},
+      		coords: {lat: props.lat, lng: props.lng},
       		infowindowOpen: true,
       	},
 	})
@@ -107,9 +102,8 @@ fetchData = (query)=>{
 	// show infowindow when marker is clicked
 	if (this.state.clickedMarker.infowindowOpen){
 		iw = <Infowindow 
-			clickedMarker={this.state.clickedMarker}/>
+			clickedMarker={this.state.clickedMarker.coords}/>		
 	}
-
 
     return (
         <GoogleMapReact
@@ -119,6 +113,7 @@ fetchData = (query)=>{
           	defaultZoom={this.state.zoom}
           	onChildClick={this.onChildClick.bind(this)}
 		>
+		
 		{markers}
 		{iw}
       </GoogleMapReact>

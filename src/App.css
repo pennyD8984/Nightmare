@@ -27,3 +27,20 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+aside{
+  padding: 0.5em;
+  background-color: grey;
+  width: 20vw;
+  height: 100vh;
+  z-index: 100;
+  position: absolute;
+}
+
+#searchInput{
+  padding: 2px;
+  width: 70%;
+}
+
+#searchBtn{
+  float: right;
+}
