@@ -1,19 +1,19 @@
-import React, { Component, ReactDOM } from 'react';
+import React, { Component } from 'react';
 import './App.css';
 import Map from './Map.js'
-import 'font-awesome/css/font-awesome.min.css';
 
 export default class App extends Component {
 	constructor(){
 	  super();
 	  this.state= {
-	    query : ''
+	    query : '',
+	    venues: [],
 	  }
 	}
 
-  updateQuery = (query) => {
-    this.setState({query: query})
-  }
+	updateQuery(query) {
+    	this.setState({query: query});
+  	}
 
 	render() {
 	    return (
@@ -21,8 +21,8 @@ export default class App extends Component {
 		      	id="app" 
 		      	style={{ height: '100vh', width: '100vw'}}	
 	      	>
-	          <aside>
-	            <input 
+	          <aside id="aside">
+	            <input
 	              id='searchInput' 
 	              type='text'
 	              placeholder="Search.." 
@@ -31,14 +31,18 @@ export default class App extends Component {
 	              onChange={(event) => this.updateQuery(event.target.value)}
 	              >
 	          	</input>
-	          	<button 
-	            id='searchBtn' 
-	            type="submit">
-	              <i className="fa fa-search"></i>
-	          	</button>
+	          	<ul id='locationList'>
+	          		<a href='#'><li>Location</li></a>
+	          		<a href='#'><li>Location</li></a>
+	          		<a href='#'><li>Location</li></a>
+	          		<a href='#'><li>Location</li></a>
+	          		<a href='#'><li>Location</li></a>
+	          	</ul>
 	      	</aside>          	
-	      	<Map/>
+	      	<Map 
+	      		query={this.state.query}
+	      	/>
 	      </div>
 	    );
-	  }
 	}
+}

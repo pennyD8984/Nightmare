@@ -1,3 +1,5 @@
+import pin from './pin.svg';
+
 const K_WIDTH = 40;
 const K_HEIGHT = 40;
 
@@ -7,16 +9,22 @@ const markerStyle = {
   height: K_HEIGHT,
   left: -K_WIDTH / 2,
   top: -K_HEIGHT / 2,
-
-  border: '5px solid #f44336',
-  borderRadius: K_HEIGHT,
-  backgroundColor: 'white',
+  borderRadius: '50%',
   textAlign: 'center',
-  color: '#3f51b5',
   fontSize: 16,
+  padding: 0,
   fontWeight: 'bold',
-  padding: 4
+    backgroundSize: 'contain',
+  background: `url(${pin})`,   
+    boxShadow: '-1px 2px 5px 0px rgba(0,0,0,0.75)',
 };
+
+const markerStyleHover = {
+  ...markerStyle,
+  width: 50,
+  height: 50,
+  
+}
 
 const mapStyle = {
         styles: [
@@ -121,9 +129,5 @@ const mapStyle = {
 ] 
 };
 
-const markerStyleHover = {
-  ...markerStyle,
-  border: '5px solid #3f51b5',
-  color: '#f44336'
-};
+
 export {markerStyle, markerStyleHover, mapStyle};

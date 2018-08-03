@@ -21,7 +21,9 @@ export default class Infowindow extends Component {
   return (
       <div 
         style={style}
-      >
+      ><ul>
+        <li></li>
+      </ul>
       </div>
     );
   }
