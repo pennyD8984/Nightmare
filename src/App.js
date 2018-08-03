@@ -7,7 +7,10 @@ export default class App extends Component {
 	  super();
 	  this.state= {
 	    query : '',
-	    venues: [],
+	    venues: {},
+	    showLocList: false,
+	    clickedMarker: [],
+		center: {lat: 49.240157, lng: 6.996933},
 	  }
 	}
 
@@ -15,7 +18,35 @@ export default class App extends Component {
     	this.setState({query: query});
   	}
 
+	updateVenues(venues) {
+    	this.setState({
+    		venues: venues,
+    	});
+  	}
+
+  	getClickedMarker(marker){
+  		this.setState({
+  			clickedMarker: marker
+  		})
+  	}
+
 	render() {
+	let locList;
+	if (!this.state.venues.length === ''){
+		locList = this.state.venues.map(function(venue) {
+			return(			
+				<a 
+					key={venue.id}
+					name={venue.name}
+					lat={venue.location.lat}
+					lng={venue.location.lng}
+					address={venue.location.formattedAddress}
+				><li>{venue.name}</li>
+				</a>
+				
+			)
+		})
+	 }
 	    return (
 	      	<div 
 		      	id="app" 
@@ -32,15 +63,15 @@ export default class App extends Component {
 	              >
 	          	</input>
 	          	<ul id='locationList'>
-	          		<a href='#'><li>Location</li></a>
-	          		<a href='#'><li>Location</li></a>
-	          		<a href='#'><li>Location</li></a>
-	          		<a href='#'><li>Location</li></a>
-	          		<a href='#'><li>Location</li></a>
+	          		{locList}	          		
 	          	</ul>
 	      	</aside>          	
 	      	<Map 
 	      		query={this.state.query}
+	      		center={this.state.center}
+	      		// Pass the function to change state to child
+	      		updateVenues={this.updateVenues.bind(this)}
+	      		getClickedMarker={this.getClickedMarker.bind(this)}
 	      	/>
 	      </div>
 	    );
