@@ -4,19 +4,13 @@ import GoogleMapReact from 'google-map-react';
 import Places from './Places.js';
 import { mapStyle } from './style.js';
 import Infowindow from './Infowindow.js';
+
+const key = {key: 'AIzaSyCi48RWeKnEzLcZcGPZZLK7JLBJtP8dS44 '};
 const endPoint='https:///api.foursquare.com/v2/venues/search?';
 
 function createMapOptions(maps) {
   return {
-  	options: mapStyle,
-    zoomControlOptions: {
-      position: maps.ControlPosition.RIGHT_CENTER,
-      style: maps.ZoomControlStyle.SMALL
-    },
-    mapTypeControlOptions: {
-      position: maps.ControlPosition.TOP_RIGHT
-    },
-    mapTypeControl: true,
+  	options: mapStyle
   };
 }
 
@@ -118,7 +112,7 @@ onChildClick(key, props) {
     return (
         <GoogleMapReact
 	        options={createMapOptions}
-	        bootstrapURLKeys={{key: 'AIzaSyATR1Un0R7ppko6QOwEkuiUkw6BojrP18U'}}
+	        bootstrapURLKeys={key}
 			center={this.state.center}
           	defaultZoom={this.state.zoom}
           	onChildClick={this.onChildClick}
