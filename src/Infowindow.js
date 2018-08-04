@@ -10,6 +10,13 @@ export default class Infowindow extends Component {
           <li id='name'>{this.props.clickedName}</li>
           <li id='address'>{this.props.clickedAddress}</li>
         </ul>
+        <button 
+          role="button" id='close' 
+          aria-label="Close Infowindow"
+          //TODO onClick close infowindow
+          onClick={()=>console.log('hi')}
+        >&times;
+        </button>
       </div>
     );
   }

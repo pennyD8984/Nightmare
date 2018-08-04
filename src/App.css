@@ -26,6 +26,7 @@ aside{
   flex-wrap: wrap;
   align-content: flex-start;
   justify-content: center;
+  overflow-y: auto;
 }
 
 #searchInput{
@@ -88,4 +89,20 @@ aside{
 #name{
   width: 100%;
   font-weight: 600;
+}
+
+#close{
+  position: relative;
+  margin-left: auto;
+  align-self: flex-start;
+  cursor:pointer;
+  color: #fff;
+  border: 1px solid #AEAEAE;
+  border-radius: 30px;
+  background: #605F61;
+  font-size: 31px;
+  font-weight: bold;
+  display: inline-block;
+  line-height: 0px;
+  padding: 11px 3px;    
 }

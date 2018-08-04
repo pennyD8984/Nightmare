@@ -5,12 +5,19 @@ import Places from './Places.js';
 import { mapStyle } from './style.js';
 import Infowindow from './Infowindow.js';
 
-const key = {key: 'AIzaSyCi48RWeKnEzLcZcGPZZLK7JLBJtP8dS44 '};
 const endPoint='https:///api.foursquare.com/v2/venues/search?';
 
 function createMapOptions(maps) {
   return {
-  	options: mapStyle
+  	options: mapStyle,
+    zoomControlOptions: {
+      position: maps.ControlPosition.RIGHT_CENTER,
+      style: maps.ZoomControlStyle.SMALL
+    },
+    mapTypeControlOptions: {
+      position: maps.ControlPosition.TOP_RIGHT
+    },
+    mapTypeControl: true,
   };
 }
 
@@ -45,22 +52,20 @@ componentWillReceiveProps(props, nextProps){
 }
 
 onChildClick(key, props) {
-	return (this.setState({
+	this.setState({
 		center: {'lat': props.lat, 'lng': props.lng},
       	clickedMarker: {
       		clickedMarkerInfo:{name: props.name, address: props.address},
       		coords: {lat: props.lat, lng: props.lng},
       		infowindowOpen: true,
       	},
-	}),
-	this.props.getClickedMarker(this.state.clickedMarker)
-	)
+	}, ()=>this.props.getClickedMarker(this.state.clickedMarker))	
 }
 
 	fetchData = (query)=>{
 	const params={
-		client_id: 'DUKTXIVJY4RL1F4VKYWUQGXIOHMUQAZKGI00U2JA0LV0TNE3',
-		client_secret: 'XDYGSLBL2FZSMMC315EPNGQGYCNEIDPHOPVBTKEE1JJEQWAU',
+		client_id: 'CFVKHDX0LHALJFVOSFQRMDYZFDADC3ZKLHZF2XBDZ4E02KAT',
+		client_secret: 'NCTNCFDK4OLL1FUFZWOOZ12PNNCEZ0D44EZNN5BZQUQ3J4NF',
 		query: this.state.query,
 		near: 'saarbruecken',
 		intent: 'browse',
@@ -112,7 +117,7 @@ onChildClick(key, props) {
     return (
         <GoogleMapReact
 	        options={createMapOptions}
-	        bootstrapURLKeys={key}
+	        bootstrapURLKeys={{key: 'AIzaSyCi48RWeKnEzLcZcGPZZLK7JLBJtP8dS44 '}}
 			center={this.state.center}
           	defaultZoom={this.state.zoom}
           	onChildClick={this.onChildClick}

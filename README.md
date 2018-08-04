@@ -4,8 +4,16 @@ A google map using react and foursquare API to fetch places informations
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
-## How to run the project?
-cd to project directory and run to install all dependencies:
+## How to run the project?  
+* Download [node.js](https://nodejs.org/en/download/)  
+
+* Download [git](https://git-scm.com/downloads)  
+
+* Clone this repository
+
+`git@github.com:pennyD8984/Nightmare.git`  
+
+* cd to project directory and run the following command to install all dependencies:  
 
 ### `npm install`
 

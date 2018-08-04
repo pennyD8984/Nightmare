@@ -7,16 +7,15 @@ export default class App extends Component {
 	  super();
 	  this.state= {
 	    query : '',
-	    venues: {},
-	    showLocList: false,
-	    clickedMarker: [],
 		center: {lat: 49.240157, lng: 6.996933},
+	    venues: {},
+	    clickedMarker: [],
 	  }
 	    this.updateVenues = this.updateVenues.bind(this);
     	this.getClickedMarker = this.getClickedMarker.bind(this);
 	}
 
-	updateQuery(query) {
+	updateQuery = (query) => {
     	this.setState({query: query});
   	}
 
@@ -31,26 +30,21 @@ export default class App extends Component {
   			clickedMarker: marker
   		})
   	}
-// Receive the update query from parent and fetch the data
-componentWillReceiveProps(props, nextProps){
-    if (this.props.query !== nextProps.query) {
-    	console.log(nextProps.query)
-        this.fetchData(nextProps.query);
+  
 
-    }
-}
 	render() {
 	let locList;
 	if (this.state.venues.length){
-		locList = this.state.venues.map(function(venue) {
+		locList = this.state.venues.map((venue) => {
 			return(			
 				<a 
+					tabIndex='0'
 					key={venue.id}
 					name={venue.name}
 					lat={venue.location.lat}
 					lng={venue.location.lng}
 					address={venue.location.formattedAddress}
-				><li>{venue.name}</li>
+				><li >{venue.name}</li>
 				</a>
 				
 			)
@@ -60,8 +54,7 @@ componentWillReceiveProps(props, nextProps){
 	    return (
 	      	<div 
 		      	id="app" 
-		      	style={{ height: '100vh', width: '100vw'}}	
-	      	>
+		      	style={{ height: '100vh', width: '100vw'}}>
 	          <aside id="aside">
 	            <input
 	              id='searchInput' 
@@ -72,7 +65,7 @@ componentWillReceiveProps(props, nextProps){
 	              onChange={(event) => this.updateQuery(event.target.value)}
 	              >
 	          	</input>
-	          	<ul id='locationList'>
+	          	<ul id='locationList' role="navigation">
 	          		{locList}	          		
 	          	</ul>
 	      	</aside>          	
