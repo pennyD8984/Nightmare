@@ -12,6 +12,8 @@ export default class App extends Component {
 	    clickedMarker: [],
 		center: {lat: 49.240157, lng: 6.996933},
 	  }
+	    this.updateVenues = this.updateVenues.bind(this);
+    	this.getClickedMarker = this.getClickedMarker.bind(this);
 	}
 
 	updateQuery(query) {
@@ -29,7 +31,14 @@ export default class App extends Component {
   			clickedMarker: marker
   		})
   	}
+// Receive the update query from parent and fetch the data
+componentWillReceiveProps(props, nextProps){
+    if (this.props.query !== nextProps.query) {
+    	console.log(nextProps.query)
+        this.fetchData(nextProps.query);
 
+    }
+}
 	render() {
 	let locList;
 	if (this.state.venues.length){
@@ -47,6 +56,7 @@ export default class App extends Component {
 			)
 		})
 	 }
+
 	    return (
 	      	<div 
 		      	id="app" 
@@ -69,9 +79,8 @@ export default class App extends Component {
 	      	<Map 
 	      		query={this.state.query}
 	      		center={this.state.center}
-	      		// Pass the function to change state to child
-	      		updateVenues={this.updateVenues.bind(this)}
-	      		getClickedMarker={this.getClickedMarker.bind(this)}
+	      		updateVenues={this.updateVenues}
+			    getClickedMarker={this.getClickedMarker}
 	      	/>
 	      </div>
 	    );

@@ -39,12 +39,15 @@ export default class Map extends Component {
 
 
 // Receive the update query from parent and fetch the data
-componentWillReceiveProps(props){
-	this.setState({
-		query: this.props.query,
-	})
-
-	this.fetchData(this.state.query);
+componentWillReceiveProps(props, nextProps){
+	// workaround for too many requests issue
+	// TODO: find a better way to handle this
+    if (this.props.query !== this.state.query) {
+        this.fetchData(this.props.query);
+		this.setState({
+			query: props.query,
+		})
+	}
 }
 
 onChildClick(key, props) {
@@ -62,8 +65,8 @@ onChildClick(key, props) {
 
 	fetchData = (query)=>{
 	const params={
-		client_id: 'JTQNJ3ZS0D3M5MK42LFEJ2P1OGHRICTLPUS4Q1ZCNWOGKKUN',
-		client_secret: 'R14NYFO3XMPEPJH54DKAZFCGFLWRTH5AH12Y1T4XD01R3G40',
+		client_id: 'DUKTXIVJY4RL1F4VKYWUQGXIOHMUQAZKGI00U2JA0LV0TNE3',
+		client_secret: 'XDYGSLBL2FZSMMC315EPNGQGYCNEIDPHOPVBTKEE1JJEQWAU',
 		query: this.state.query,
 		near: 'saarbruecken',
 		intent: 'browse',
@@ -74,7 +77,7 @@ onChildClick(key, props) {
 	.then(response => { 
 		this.setState({
 		venues: response.data.response.venues
-		}),
+		})
 
 		this.props.updateVenues(this.state.venues)
 	})
@@ -115,10 +118,10 @@ onChildClick(key, props) {
     return (
         <GoogleMapReact
 	        options={createMapOptions}
-	        bootstrapURLKeys={{key: 'AIzaSyD0bg8zynVSUQBNqTIp__dBgIrVghmv8Co'}}
+	        bootstrapURLKeys={{key: 'AIzaSyATR1Un0R7ppko6QOwEkuiUkw6BojrP18U'}}
 			center={this.state.center}
           	defaultZoom={this.state.zoom}
-          	onChildClick={this.onChildClick.bind(this)}
+          	onChildClick={this.onChildClick}
 		>
 		{markers}
 		{iw}
