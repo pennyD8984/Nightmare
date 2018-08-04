@@ -32,7 +32,7 @@ export default class App extends Component {
 
 	render() {
 	let locList;
-	if (!this.state.venues.length === ''){
+	if (this.state.venues.length){
 		locList = this.state.venues.map(function(venue) {
 			return(			
 				<a 

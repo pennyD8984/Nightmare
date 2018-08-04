@@ -62,8 +62,8 @@ onChildClick(key, props) {
 
 	fetchData = (query)=>{
 	const params={
-		client_id: 'XFLNKFGE5KSXJEKFJY0QTS2ZO5J3XH4SYGDSGGFIBJORA2N1',
-		client_secret: 'E4SY2RLPJMVEQ3LGNDFKLCEJ3MRKEMPTBE3SXSE25N0EXEWG',
+		client_id: 'JTQNJ3ZS0D3M5MK42LFEJ2P1OGHRICTLPUS4Q1ZCNWOGKKUN',
+		client_secret: 'R14NYFO3XMPEPJH54DKAZFCGFLWRTH5AH12Y1T4XD01R3G40',
 		query: this.state.query,
 		near: 'saarbruecken',
 		intent: 'browse',
@@ -126,4 +126,3 @@ onChildClick(key, props) {
     );
   }
 }
-
