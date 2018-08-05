@@ -6,7 +6,7 @@ export default class Infowindow extends Component {
     super(props);
     this.handleClick = this.handleClick.bind(this);
   }
-  
+
   handleClick(){
     this.props.onClick();
   }
@@ -22,7 +22,6 @@ export default class Infowindow extends Component {
           role="button" id='close' 
           aria-label="Close Infowindow"
           onClick={this.handleClick}
-          //TODO onClick close infowindow
         >&times;
         </button>
       </div>

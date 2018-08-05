@@ -1,14 +1,11 @@
 import pin from './pin.svg';
 import pin2 from './pin2.svg';
-
-const K_WIDTH = 40;
-const K_HEIGHT = 40;
+// TODO: cut background to pins
 
 const markerStyle = {
   position: 'absolute',
-  width: K_WIDTH,
-  height: K_HEIGHT,
-
+  width: 30,
+  height: 30,
   borderRadius: '50%',
   textAlign: 'center',
   fontSize: 16,
@@ -21,7 +18,8 @@ const markerStyle = {
 const markerStyleHover = {
   ...markerStyle,
     background: `url(${pin2})`,   
-
+  width: 30,
+  height: 30
 }
 
 const mapStyle = {

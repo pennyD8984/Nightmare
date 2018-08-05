@@ -62,26 +62,46 @@ aside{
 }
 
 #infowindow{
-    width: 23vw;
-    height: 20vh;
+    width: 15em;
+    height: auto;
     background-color: white;
-    webkit-box-shadow: 0px -1px 12px 3px rgba(0,0,0,0.45);
-    moz-box-shadow: 0px -1px 12px 3px rgba(0,0,0,0.45);
-    box-shadow: 0px -1px 12px 3px rgba(0,0,0,0.45);
-    margin-left: -120px;
-    margin-top: -120px;
+    margin-left: -40px;
+    margin-top: -7.5em;
     display: flex;
+    flex-wrap: wrap;
     z-index: 100;
     position: absolute;
+    background: -moz-linear-gradient(top, #dedede 0%, #ffffff 100%);
+    background: -webkit-linear-gradient(top, #dedede 0%, #ffffff 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #dedede), color-stop(1, #ffffff));
+    background: -o-linear-gradient(top, #dedede 0%, #ffffff 100%);
+    background: -ms-linear-gradient(top, #dedede 0%, #ffffff 100%);
+    background: linear-gradient(top, #dedede 0%, #ffffff 100%);
+    text-align: center;
+    box-shadow: rgba(0, 0, 0, 0.3) 2px 2px 2px ;
+    border-radius: 10px;
+  flex-direction: column-reverse;
+  justify-content: flex-end;
+}
+
+#infowindow:after {
+  content: "";
+  position: absolute;
+  box-shadow: rgba(0, 0, 0, 0.3) 2px 2px 2px ;
+  -moz-transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  bottom: -10px;
+  left: 50px;
+  border-width: 10px;
+  border-style: solid;
+  border-color: transparent #FFF #FFF transparent;
 }
 
 #infowindow ul{
   padding: 0.7em;
   display: flex;
   list-style: none;
-  align-items: center;
   flex-wrap: wrap;
-  justify-content: center;
   text-align: center;
 }
 
@@ -90,10 +110,11 @@ aside{
   font-weight: 600;
 }
 
+#address{
+  width: 100%;
+}
+
 #close{
-  position: relative;
-  margin-left: auto;
-  align-self: flex-start;
   cursor:pointer;
   color: #fff;
   border: 1px solid #AEAEAE;
@@ -101,7 +122,10 @@ aside{
   background: #605F61;
   font-size: 31px;
   font-weight: bold;
-  display: inline-block;
   line-height: 0px;
-  padding: 11px 3px;    
+  padding: 11px 3px;
+  align-self: flex-end;
+  position: absolute;
+  top: -0.3em;
+  right: -0.3em;
 }
