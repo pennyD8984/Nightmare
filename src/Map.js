@@ -18,6 +18,7 @@ function createMapOptions(maps) {
       position: maps.ControlPosition.TOP_RIGHT
     },
     mapTypeControl: true,
+    Animation: 1,
   };
 }
 
@@ -26,17 +27,14 @@ export default class Map extends Component {
 		super(props);
 		this.state = {
 			venues: [],
-			center: this.props.center,
 			zoom: 13,
 			query: '',
 			clickedMarker: {
 				coords: { lat: 0, lng: 0},
 				clickedMarkerInfo:{name: '', address: ''},
 			},
-			infowindowOpen: false,
+			infowindowOpen: props.infowindowOpen
 		}
-		this.onChildClick = this.onChildClick.bind(this);
-		this.closeIw = this.closeIw.bind(this);
 	} 	
 
 // Get the initial locations for sushi lovers
@@ -50,16 +48,34 @@ componentDidMount(){
 componentWillReceiveProps(props, nextProps){
 	// workaround for too many requests issue
 	// TODO: find a better way to handle this
-    if (this.props.query !== this.state.query) {
-        this.fetchData(this.props.query);
+    if (props.query !== this.state.query) {
+        this.fetchData(props.query);
 		this.setState({
-			query: props.query,
+			query: props.query
 		})
 	}
+
+	if(props.center !== this.state.center){
+		this.newCenter();
+	}
+	//TODO onKeyPress
+	console.log(props.onClickList)
 }
 
-onChildClick(key, props) {
-	console.log(key);
+newCenter = () =>{
+	this.setState((prevState, props)=>{
+		return{
+			center: props.center,
+			infowindowOpen: false
+		}
+	});
+}
+
+onChildClick = (key, props) => {
+	this.getNewCenter(props);
+}
+
+getNewCenter = (props) =>{
 	this.setState({
 		center: {'lat': props.lat, 'lng': props.lng},
       	clickedMarker: {
@@ -67,8 +83,7 @@ onChildClick(key, props) {
       		coords: {lat: props.lat, lng: props.lng},
       	},      		
       	infowindowOpen: true
-	}, ()=>this.props.getClickedMarker(this.state.clickedMarker))	
-
+	})		
 }
 
 	fetchData = (query)=>{
@@ -94,9 +109,8 @@ onChildClick(key, props) {
 		console.log('error retreiving data: ' + response);
 	})
 }
-
 	// Callback to change state when infowindow close button is clicked
-	closeIw(){
+	closeIw = () => {
 		if(this.state.infowindowOpen){
 			this.setState({infowindowOpen: false}, () => {
 				this.state.infowindowOpen

@@ -5,54 +5,50 @@ import Map from './Map.js'
 export default class App extends Component {
 	constructor(){
 	  super();
-	  this.state= {
+	  this.state = {
 	    query : 'sushi',
 		center: {lat: 49.240157, lng: 6.996933},
 	    venues: {},
-	    clickedMarker: [],
+	    infowindowOpen: false,
 	  }
-	    this.updateVenues = this.updateVenues.bind(this);
-    	this.getClickedMarker = this.getClickedMarker.bind(this);
-    	this.onClickList = this.onClickList.bind(this)
 	}
 
 	updateQuery = (query) => {
     	this.setState({query: query});
   	}
 
-	updateVenues(venues) {
-    	this.setState({
-    		venues: venues,
-    	});
+	updateVenues = (venues) => {
+		return(
+	    	this.setState({
+	    		venues: venues,
+	    	})
+		)
   	}
 
-  	getClickedMarker(marker){
-  		this.setState({
-  			clickedMarker: marker
-  		})
+  	onClickList = (venue) =>{
+  	// when user clicks on a list item, center gets reset
+		this.setState({
+			center: {lat: venue.location.lat, lng: venue.location.lng},
+		})
   	}
 
-  	onClickList(event){
-	  	console.log(event.target.getAttribute('name'));
-  	}
 
 	render() {
 	let locList;
 	if (this.state.venues.length){
 		locList = this.state.venues.map((venue) => {
 			return(			
-				<a key={venue.id}>
-					<li					
-						tabIndex='0'
-						name={venue.name}
-						lat={venue.location.lat}
-						lng={venue.location.lng}
-						address={venue.location.formattedAddress}
-						onClick={(event)=>{this.onClickList(event)}}
-					>{venue.name}
-					</li>
+				<a key={venue.id}						
+					tabIndex='0'
+					name={venue.name}
+					lat={venue.location.lat}
+					lng={venue.location.lng}
+					address={venue.location.formattedAddress}
+					onClick={()=>{this.onClickList(venue)}}
+					onKeyPress={()=>{this.onClickList(venue)}}
+					>
+					<li>{venue.name}</li>
 				</a>
-				
 			)
 		})
 	 }
@@ -80,7 +76,7 @@ export default class App extends Component {
 	      		query={this.state.query}
 	      		center={this.state.center}
 	      		updateVenues={this.updateVenues}
-			    getClickedMarker={this.getClickedMarker}
+	      		onClickList={this.onClickList}
 	      	/>
 	      </div>
 	    );
