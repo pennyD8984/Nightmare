@@ -13,6 +13,7 @@ export default class App extends Component {
 	  }
 	    this.updateVenues = this.updateVenues.bind(this);
     	this.getClickedMarker = this.getClickedMarker.bind(this);
+    	this.onClickList = this.onClickList.bind(this)
 	}
 
 	updateQuery = (query) => {
@@ -30,21 +31,26 @@ export default class App extends Component {
   			clickedMarker: marker
   		})
   	}
-  
+
+  	onClickList(event){
+	  	console.log(event.target.getAttribute('name'));
+  	}
 
 	render() {
 	let locList;
 	if (this.state.venues.length){
 		locList = this.state.venues.map((venue) => {
 			return(			
-				<a 
-					tabIndex='0'
-					key={venue.id}
-					name={venue.name}
-					lat={venue.location.lat}
-					lng={venue.location.lng}
-					address={venue.location.formattedAddress}
-				><li >{venue.name}</li>
+				<a key={venue.id}>
+					<li					
+						tabIndex='0'
+						name={venue.name}
+						lat={venue.location.lat}
+						lng={venue.location.lng}
+						address={venue.location.formattedAddress}
+						onClick={(event)=>{this.onClickList(event)}}
+					>{venue.name}
+					</li>
 				</a>
 				
 			)
@@ -66,7 +72,8 @@ export default class App extends Component {
 	              >
 	          	</input>
 	          	<ul id='locationList' role="navigation">
-	          		{locList}	          		
+	          		{locList}
+
 	          	</ul>
 	      	</aside>          	
 	      	<Map 
