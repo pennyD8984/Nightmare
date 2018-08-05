@@ -32,12 +32,19 @@ export default class Map extends Component {
 			clickedMarker: {
 				coords: { lat: 0, lng: 0},
 				clickedMarkerInfo:{name: '', address: ''},
-				infowindowOpen: false,
-			}
+			},
+			infowindowOpen: false,
 		}
 		this.onChildClick = this.onChildClick.bind(this);
+		this.closeIw = this.closeIw.bind(this);
 	} 	
 
+// Get the initial locations for sushi lovers
+componentDidMount(){
+	if (this.props.query === 'sushi'){
+		this.fetchData();
+	}
+}
 
 // Receive the update query from parent and fetch the data
 componentWillReceiveProps(props, nextProps){
@@ -52,21 +59,23 @@ componentWillReceiveProps(props, nextProps){
 }
 
 onChildClick(key, props) {
+	console.log(key);
 	this.setState({
 		center: {'lat': props.lat, 'lng': props.lng},
       	clickedMarker: {
       		clickedMarkerInfo:{name: props.name, address: props.address},
       		coords: {lat: props.lat, lng: props.lng},
-      		infowindowOpen: true,
-      	},
+      	},      		
+      	infowindowOpen: true
 	}, ()=>this.props.getClickedMarker(this.state.clickedMarker))	
+
 }
 
 	fetchData = (query)=>{
 	const params={
 		client_id: 'CFVKHDX0LHALJFVOSFQRMDYZFDADC3ZKLHZF2XBDZ4E02KAT',
 		client_secret: 'NCTNCFDK4OLL1FUFZWOOZ12PNNCEZ0D44EZNN5BZQUQ3J4NF',
-		query: this.state.query,
+		query: this.props.query,
 		near: 'saarbruecken',
 		intent: 'browse',
 		v: 20180728,
@@ -85,6 +94,15 @@ onChildClick(key, props) {
 		console.log('error retreiving data: ' + response);
 	})
 }
+
+	// Callback to change state when infowindow close button is clicked
+	closeIw(){
+		if(this.state.infowindowOpen){
+			this.setState({infowindowOpen: false}, () => {
+				this.state.infowindowOpen
+			})
+		}
+	}
 
 	render() {
 	let markers;
@@ -106,10 +124,12 @@ onChildClick(key, props) {
 
 	// check if iw is already open, if not
 	// show infowindow when marker is clicked
-	if (this.state.clickedMarker.infowindowOpen){
+	if (this.state.infowindowOpen){
 		iw = <Infowindow 
 				clickedName={this.state.clickedMarker.clickedMarkerInfo.name}
 				clickedAddress={this.state.clickedMarker.clickedMarkerInfo.address}
+				infowindowOpen={this.state.infowindowOpen}
+				onClick={this.closeIw}
 			>
 			</Infowindow>
 	}

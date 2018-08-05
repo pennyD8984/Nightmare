@@ -8,8 +8,7 @@ const markerStyle = {
   position: 'absolute',
   width: K_WIDTH,
   height: K_HEIGHT,
-  left: -K_WIDTH / 2,
-  top: -K_HEIGHT / 2,
+
   borderRadius: '50%',
   textAlign: 'center',
   fontSize: 16,

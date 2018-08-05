@@ -2,6 +2,14 @@ import React, { Component } from 'react';
 import './App.css';
 
 export default class Infowindow extends Component {
+  constructor(props){
+    super(props);
+    this.handleClick = this.handleClick.bind(this);
+  }
+  
+  handleClick(){
+    this.props.onClick();
+  }
 
   render() {
   return (
@@ -13,8 +21,8 @@ export default class Infowindow extends Component {
         <button 
           role="button" id='close' 
           aria-label="Close Infowindow"
+          onClick={this.handleClick}
           //TODO onClick close infowindow
-          onClick={()=>console.log('hi')}
         >&times;
         </button>
       </div>

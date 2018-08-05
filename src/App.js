@@ -6,7 +6,7 @@ export default class App extends Component {
 	constructor(){
 	  super();
 	  this.state= {
-	    query : '',
+	    query : 'sushi',
 		center: {lat: 49.240157, lng: 6.996933},
 	    venues: {},
 	    clickedMarker: [],
