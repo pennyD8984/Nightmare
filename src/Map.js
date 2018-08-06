@@ -4,6 +4,7 @@ import GoogleMapReact from 'google-map-react';
 import Places from './Places.js';
 import { mapStyle } from './style.js';
 import Infowindow from './Infowindow.js';
+import ErrorBoundary from './ErrorBoundary.js'
 
 const endPoint='https:///api.foursquare.com/v2/venues/search?';
 
@@ -111,9 +112,17 @@ getNewCenter = (props) =>{
 		this.props.updateVenues(this.state.venues)
 	})
 	// If the fetching fails, an error is thrown in the console
-	.catch((response) => {
-		console.log('error retreiving data: ' + response);
+	.catch((error, response) => {
+		if (error.response.status === 400) {
+			alert('Something went wrong with your query, please try again later')
+			console.log(error.response);
+		}	
+		else{
+			alert('Oops..looks like something went wrong, please try again later');
+			console.log(error.response);
+		}
 	})
+
 }
 	// Callback to change state when infowindow close button is clicked
 	closeIw = () => {
@@ -163,16 +172,18 @@ getNewCenter = (props) =>{
 
 
     return (
-        <GoogleMapReact
-	        options={createMapOptions}
-	        bootstrapURLKeys={{key: 'AIzaSyCi48RWeKnEzLcZcGPZZLK7JLBJtP8dS44 '}}
-			center={this.state.center}
-          	defaultZoom={this.state.zoom}
-          	onChildClick={this.onChildClick}
-		>
-		{markers}
-		{iw}
-      </GoogleMapReact>
+    	<ErrorBoundary>
+	        <GoogleMapReact
+		        options={createMapOptions}
+		        bootstrapURLKeys={{key: 'AIzaSyCi48RWeKnEzLcZcGPZZLK7JLBJtP8dS44 '}}
+				center={this.state.center}
+	          	defaultZoom={this.state.zoom}
+	          	onChildClick={this.onChildClick}
+			>
+			{markers}
+			{iw}
+	      </GoogleMapReact>
+      </ErrorBoundary>
     );
   }
 }

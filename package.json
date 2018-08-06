@@ -8,6 +8,7 @@
     "@shoutem/ui": "^0.23.4",
     "antd": "^3.7.3",
     "axios": "^0.18.0",
+    "classnames": "^2.2.6",
     "font-awesome": "^4.7.0",
     "google-map-react": "^1.0.5",
     "prop-types": "^15.6.2",

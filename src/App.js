@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Map from './Map.js'
+import ErrorBoundary from './ErrorBoundary.js';
 
 export default class App extends Component {
 	constructor(){
@@ -10,7 +11,7 @@ export default class App extends Component {
 		center: {lat: 49.240157, lng: 6.996933},
 	    venues: {},
 	    infowindowOpen: false,
-	   	currentVenue: {}
+	   	currentVenue: {},
 	  }
 	}
 
@@ -37,11 +38,10 @@ export default class App extends Component {
 
 	render() {
 	let locList;
-
 	if (this.state.venues.length){
 		locList = this.state.venues.map((venue) => {
 			return(			
-				<a key={venue.id}						
+				<li key={venue.id}						
 					tabIndex='0'
 					name={venue.name}
 					lat={venue.location.lat}
@@ -49,42 +49,44 @@ export default class App extends Component {
 					address={venue.location.formattedAddress}
 					onClick={()=>{this.handleClick(venue)}}
 					onKeyPress={()=>{this.handleClick(venue)}}
-					tyle={this.state.btnColor}
 					>
-					<li 
-					>{venue.name}</li>
-				</a>
+					<a
+					>{venue.name}</a>
+				</li>
 			)
 		})
 	 }
 
 	    return (
-	      	<div 
-		      	id="app" 
-		      	style={{ height: '100vh', width: '100vw'}}>
-	          <aside id="aside">
-	            <input
-	              id='searchInput' 
-	              type='text'
-	              placeholder="Search.." 
-	              name="search"
-	              value={this.state.query}
-	              onChange={(event) => this.updateQuery(event.target.value)}
-	              >
-	          	</input>
-	          	<ul id='locationList' role="navigation">
-	          		{locList}
-
-	          	</ul>
-	      	</aside>          	
-	      	<Map 
-	      		query={this.state.query}
-	      		center={this.state.center}
-	      		updateVenues={this.updateVenues}
-	      		currentVenue={this.state.currentVenue}
-	      		onClickList={this.handleClick}
-	      	/>
-	      </div>
+	      	<ErrorBoundary>
+				<main 
+			      	id="app" 
+			      	style={{ height: '100vh', width: '100vw', maxHeight: '100vh'}}>
+		          	<aside id="aside">
+			          	<label htmlFor='search' id='searchLabel'>Search</label>
+			            <input
+			              id='searchInput' 
+			              type='text'
+			              placeholder="Search.." 
+			              name="search"
+			              value={this.state.query}
+			              onChange={(event) => this.updateQuery(event.target.value)}
+			            >
+			          	</input>
+			          	<ul id='locationList' role="navigation">
+			          		{locList}
+			          	</ul>
+		      		</aside>          	
+		      	<Map 
+		      		query={this.state.query}
+		      		center={this.state.center}
+		      		updateVenues={this.updateVenues}
+		      		currentVenue={this.state.currentVenue}
+		      		onClickList={this.handleClick}
+		      		bounce={this.bounce}
+		      	/>
+		      </main>
+	      </ErrorBoundary>
 	    );
 	}
 }
