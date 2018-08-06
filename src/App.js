@@ -10,6 +10,7 @@ export default class App extends Component {
 		center: {lat: 49.240157, lng: 6.996933},
 	    venues: {},
 	    infowindowOpen: false,
+	   	currentVenue: {}
 	  }
 	}
 
@@ -25,16 +26,18 @@ export default class App extends Component {
 		)
   	}
 
-  	onClickList = (venue) =>{
+  	handleClick = (venue) =>{
   	// when user clicks on a list item, center gets reset
 		this.setState({
 			center: {lat: venue.location.lat, lng: venue.location.lng},
+			currentVenue: venue
 		})
   	}
 
 
 	render() {
 	let locList;
+
 	if (this.state.venues.length){
 		locList = this.state.venues.map((venue) => {
 			return(			
@@ -44,10 +47,12 @@ export default class App extends Component {
 					lat={venue.location.lat}
 					lng={venue.location.lng}
 					address={venue.location.formattedAddress}
-					onClick={()=>{this.onClickList(venue)}}
-					onKeyPress={()=>{this.onClickList(venue)}}
+					onClick={()=>{this.handleClick(venue)}}
+					onKeyPress={()=>{this.handleClick(venue)}}
+					tyle={this.state.btnColor}
 					>
-					<li>{venue.name}</li>
+					<li 
+					>{venue.name}</li>
 				</a>
 			)
 		})
@@ -76,7 +81,8 @@ export default class App extends Component {
 	      		query={this.state.query}
 	      		center={this.state.center}
 	      		updateVenues={this.updateVenues}
-	      		onClickList={this.onClickList}
+	      		currentVenue={this.state.currentVenue}
+	      		onClickList={this.handleClick}
 	      	/>
 	      </div>
 	    );

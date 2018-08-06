@@ -27,8 +27,9 @@ export default class Map extends Component {
 		super(props);
 		this.state = {
 			venues: [],
-			zoom: 13,
+			zoom: 15,
 			query: '',
+			currentVenue: props.currentVenue,
 			clickedMarker: {
 				coords: { lat: 0, lng: 0},
 				clickedMarkerInfo:{name: '', address: ''},
@@ -58,8 +59,12 @@ componentWillReceiveProps(props, nextProps){
 	if(props.center !== this.state.center){
 		this.newCenter();
 	}
-	//TODO onKeyPress
-	console.log(props.onClickList)
+
+	if(props.currentVenue !== this.state.currentVenue){
+		this.setState({
+			currentVenue: props.currentVenue,
+		})	
+	}
 }
 
 newCenter = () =>{
@@ -96,6 +101,7 @@ getNewCenter = (props) =>{
 		v: 20180728,
 		radius: 20000,
 	};
+
 	axios.get(endPoint + new URLSearchParams(params))
 	.then(response => { 
 		this.setState({
@@ -144,9 +150,17 @@ getNewCenter = (props) =>{
 				clickedAddress={this.state.clickedMarker.clickedMarkerInfo.address}
 				infowindowOpen={this.state.infowindowOpen}
 				onClick={this.closeIw}
-			>
-			</Infowindow>
-	}
+			/>	
+		}
+		if (this.state.currentVenue.name && this.state.currentVenue !== undefined){
+			iw =<Infowindow 
+				clickedName={this.state.currentVenue.name}
+				clickedAddress={this.state.currentVenue.location.formattedAddress}
+				infowindowOpen={this.state.infowindowOpen}
+				onClick={this.closeIw}
+			/>
+		}
+
 
     return (
         <GoogleMapReact
