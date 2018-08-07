@@ -32,5 +32,6 @@ To build the app for production run:
 ### `npm run build`
 
 
-##TODO  
+## TODO  
 - Replace 'componentWillReceiveProps' (it will be deprecated soon)
+- Refactor code for infowindows
