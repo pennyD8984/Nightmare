@@ -18,9 +18,8 @@ function createMapOptions(maps) {
     mapTypeControlOptions: {
       position: maps.ControlPosition.TOP_RIGHT
     },
-    mapTypeControl: true,
-    Animation: 1,
-  };
+    mapTypeControl: true
+   };
 }
 
 export default class Map extends Component {
@@ -34,8 +33,8 @@ export default class Map extends Component {
 			clickedMarker: {
 				coords: { lat: 0, lng: 0},
 				clickedMarkerInfo:{name: '', address: ''},
-			},
-			infowindowOpen: props.infowindowOpen
+			}, bounce: props.bounce,
+			infowindowOpen: props.infowindowOpen,
 		}
 	} 	
 
@@ -64,7 +63,13 @@ componentWillReceiveProps(props, nextProps){
 	if(props.currentVenue !== this.state.currentVenue){
 		this.setState({
 			currentVenue: props.currentVenue,
-		})	
+		})
+	}
+
+	if(props.bounce !== this.state.bounce){
+		this.setState({
+			bounce: props.bounce
+		})
 	}
 }
 
@@ -72,7 +77,7 @@ newCenter = () =>{
 	this.setState((prevState, props)=>{
 		return{
 			center: props.center,
-			infowindowOpen: false
+			infowindowOpen: false,
 		}
 	});
 }
@@ -94,8 +99,8 @@ getNewCenter = (props) =>{
 
 	fetchData = (query)=>{
 	const params={
-		client_id: 'CFVKHDX0LHALJFVOSFQRMDYZFDADC3ZKLHZF2XBDZ4E02KAT',
-		client_secret: 'NCTNCFDK4OLL1FUFZWOOZ12PNNCEZ0D44EZNN5BZQUQ3J4NF',
+		client_id: '4YEVIEO5HS3YOSIEAO2GMU343DX3MK0EJOYC1T1KH1EEQ05F',
+		client_secret: 'IOEE1SSE4OEKMPKXXBWUVJDKTUP3YATRELMHONQXO453UIKO',
 		query: this.props.query,
 		near: 'saarbruecken',
 		intent: 'browse',
@@ -114,21 +119,25 @@ getNewCenter = (props) =>{
 	// If the fetching fails, an error is thrown in the console
 	.catch((error, response) => {
 		if (error.response.status === 400) {
-			alert('Something went wrong with your query, please try again later')
+			alert('You reached the daily quota for foursquare, please try again tomorrow')
 			console.log(error.response);
-		}	
+		}
+		else if (error.response.status === 429) {
+			alert('Quota exceeded, please try again tomorrow')
+			console.log(error.response);
+		}		
 		else{
 			alert('Oops..looks like something went wrong, please try again later');
 			console.log(error.response);
 		}
 	})
-
 }
+
 	// Callback to change state when infowindow close button is clicked
 	closeIw = () => {
 		if(this.state.infowindowOpen){
 			this.setState({infowindowOpen: false}, () => {
-				this.state.infowindowOpen
+				this.state.infowindowOpen;
 			})
 		}
 	}
@@ -137,19 +146,35 @@ getNewCenter = (props) =>{
 	let markers;
 	let iw;
 	if (this.state.venues !== null && this.state.venues !== undefined){
-		markers = this.state.venues.map(function(venue) {
-			return(			
-				<Places 
+		markers = this.state.venues.map((venue) => {
+			if(this.state.bounce){
+				return(
+				<Places
 					key={venue.id}
 					lat={venue.location.lat}
 					lng={venue.location.lng}
 					name={venue.name}
 					address={venue.location.formattedAddress}
-				>
+		      		currentVenue={this.state.currentVenue}
+		      		className='bounce'
+		      		>
+				</Places>					
+				)
+			}
+			else{
+			return(			
+				<Places
+					key={venue.id}
+					lat={venue.location.lat}
+					lng={venue.location.lng}
+					name={venue.name}
+					address={venue.location.formattedAddress}
+		      		currentVenue={this.state.currentVenue}
+		      		className=''
+		      		>
 				</Places>
-			)
-		})
-	}
+			)}
+	})}
 
 	// check if iw is already open, if not
 	// show infowindow when marker is clicked
@@ -169,7 +194,6 @@ getNewCenter = (props) =>{
 				onClick={this.closeIw}
 			/>
 		}
-
 
     return (
     	<ErrorBoundary>

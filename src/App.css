@@ -86,7 +86,7 @@ aside{
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #dedede), color-stop(1, #ffffff));
   background: -o-linear-gradient(top, #dedede 0%, #ffffff 100%);
   background: -ms-linear-gradient(top, #dedede 0%, #ffffff 100%);
-  background: linear-gradient(top, #dedede 0%, #ffffff 100%);
+  background: linear-gradient(to bottom, #dedede 0%, #ffffff 100%);
   text-align: center;
   box-shadow: rgba(0, 0, 0, 0.3) 2px 2px 2px ;
   border-radius: 10px;
@@ -140,8 +140,7 @@ aside{
   right: -0.3em;
 }
 
-
-    .bounce {
+.bounce {
   -webkit-animation-name: bounce;
   animation-name: bounce;
   -webkit-transform-origin: center bottom;

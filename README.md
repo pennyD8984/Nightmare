@@ -30,3 +30,7 @@ NOTE: the service worker only works in production mode.
 To build the app for production run:  
 
 ### `npm run build`
+
+
+##TODO  
+- Replace 'componentWillReceiveProps' (it will be deprecated soon)

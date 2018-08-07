@@ -4,6 +4,9 @@ import './App.css';
 export default class Infowindow extends Component {
   constructor(props){
     super(props);
+    this.state={
+      infowindowOpen: this.props.infowindowOpen
+    }
     this.handleClick = this.handleClick.bind(this);
   }
 

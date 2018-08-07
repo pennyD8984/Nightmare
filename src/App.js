@@ -12,6 +12,7 @@ export default class App extends Component {
 	    venues: {},
 	    infowindowOpen: false,
 	   	currentVenue: {},
+	   	bounce: false,
 	  }
 	}
 
@@ -31,10 +32,11 @@ export default class App extends Component {
   	// when user clicks on a list item, center gets reset
 		this.setState({
 			center: {lat: venue.location.lat, lng: venue.location.lng},
-			currentVenue: venue
+			currentVenue: venue,
+			bounce: true,
+			infowindowOpen: true
 		})
   	}
-
 
 	render() {
 	let locList;
@@ -47,6 +49,8 @@ export default class App extends Component {
 					lat={venue.location.lat}
 					lng={venue.location.lng}
 					address={venue.location.formattedAddress}
+					// for reference: pass 2 parameters to evt listener
+					// onClick={(e)=>this.handleClick(venue, e)}
 					onClick={()=>{this.handleClick(venue)}}
 					onKeyPress={()=>{this.handleClick(venue)}}
 					>
@@ -82,8 +86,7 @@ export default class App extends Component {
 		      		center={this.state.center}
 		      		updateVenues={this.updateVenues}
 		      		currentVenue={this.state.currentVenue}
-		      		onClickList={this.handleClick}
-		      		bounce={this.bounce}
+		      		bounce={this.state.bounce}
 		      	/>
 		      </main>
 	      </ErrorBoundary>
