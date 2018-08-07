@@ -12,7 +12,6 @@ export default class App extends Component {
 	    venues: {},
 	    infowindowOpen: false,
 	   	currentVenue: {},
-	   	bounce: false,
 	  }
 	}
 
@@ -33,7 +32,6 @@ export default class App extends Component {
 		this.setState({
 			center: {lat: venue.location.lat, lng: venue.location.lng},
 			currentVenue: venue,
-			bounce: true,
 			infowindowOpen: true
 		})
   	}
@@ -86,7 +84,6 @@ export default class App extends Component {
 		      		center={this.state.center}
 		      		updateVenues={this.updateVenues}
 		      		currentVenue={this.state.currentVenue}
-		      		bounce={this.state.bounce}
 		      	/>
 		      </main>
 	      </ErrorBoundary>

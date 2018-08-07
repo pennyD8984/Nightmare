@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios'
 import GoogleMapReact from 'google-map-react';
-import Places from './Places.js';
+import Markers from './Markers.js';
 import { mapStyle } from './style.js';
 import Infowindow from './Infowindow.js';
 import ErrorBoundary from './ErrorBoundary.js'
@@ -33,7 +33,7 @@ export default class Map extends Component {
 			clickedMarker: {
 				coords: { lat: 0, lng: 0},
 				clickedMarkerInfo:{name: '', address: ''},
-			}, bounce: props.bounce,
+			},
 			infowindowOpen: props.infowindowOpen,
 		}
 	} 	
@@ -63,12 +63,6 @@ componentWillReceiveProps(props, nextProps){
 	if(props.currentVenue !== this.state.currentVenue){
 		this.setState({
 			currentVenue: props.currentVenue,
-		})
-	}
-
-	if(props.bounce !== this.state.bounce){
-		this.setState({
-			bounce: props.bounce
 		})
 	}
 }
@@ -147,34 +141,18 @@ getNewCenter = (props) =>{
 	let iw;
 	if (this.state.venues !== null && this.state.venues !== undefined){
 		markers = this.state.venues.map((venue) => {
-			if(this.state.bounce){
-				return(
-				<Places
-					key={venue.id}
-					lat={venue.location.lat}
-					lng={venue.location.lng}
-					name={venue.name}
-					address={venue.location.formattedAddress}
-		      		currentVenue={this.state.currentVenue}
-		      		className='bounce'
-		      		>
-				</Places>					
-				)
-			}
-			else{
 			return(			
-				<Places
+				<Markers
 					key={venue.id}
 					lat={venue.location.lat}
 					lng={venue.location.lng}
 					name={venue.name}
 					address={venue.location.formattedAddress}
 		      		currentVenue={this.state.currentVenue}
-		      		className=''
 		      		>
-				</Places>
+				</Markers>
 			)}
-	})}
+	)}
 
 	// check if iw is already open, if not
 	// show infowindow when marker is clicked
